@@ -65,11 +65,13 @@ Hooks = {
       // If it didn't fail, set the new ID as the property value in the doc,
       // or push it into the array of IDs if it's a multiple files field.
       else {
+        // Embed the FS.File instance if ejson is available
+        var fileVal = _.has(Package, 'cfs:ejson-file') ? fileObj : fileObj._id;
+
         if (arrayFields[key]) {
-          CfsAutoForm.Util.deepFind(doc,key)[key].push(fileObj._id);
+          CfsAutoForm.Util.deepFind(doc,key)[key].push(fileVal);
         } else {
-          //doc[key] = fileObj._id;
-          CfsAutoForm.Util.deepSet(doc,key,fileObj._id);
+          CfsAutoForm.Util.deepSet(doc,key,fileVal);
         }
       }
 
